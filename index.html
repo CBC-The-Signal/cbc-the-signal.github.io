@@ -29,7 +29,6 @@
     <select id="year"></select>
     <div id="player">
         <audio controls>
-            <source src="https://f001.backblazeb2.com/file/thesignal/2014-12-11-the-signal.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
     </div>
@@ -883,6 +882,7 @@
 
         const todayElement = document.getElementById('today');
         const yearElement = document.getElementById('year');
+        const audio = document.getElementsByTagName('audio')[0];
 
         const today = new Date();
         const todaysFiles = files.get(mm_dd(new Date()));
@@ -892,23 +892,43 @@
             option.innerText = file.year;
             yearElement.appendChild(option);
         }
-        console.log(todaysFiles);
         
+        const tenPmInSeconds = 22 * 60 * 60;
+        const nowInSeconds = (today.getHours() * 60 * 60) + (today.getMinutes() * 60) + today.getSeconds();
+        const secondsUntilTenPm = tenPmInSeconds - nowInSeconds;
+        if (secondsUntilTenPm < 0) {
+            console.log('too late');
+        }
+        setTimeout(selectFile, secondsUntilTenPm * 1000);
+        //selectFile();
+        yearElement.onchange = selectFile;
+
         timeThings();
         setInterval(timeThings, 1000);
         const formatted = yyyy_mm_dd(today);
-        console.log(formatted);
-        console.log(fileUrls.filter(x => x.includes(formatted)));
+        // console.log(formatted);
+        // console.log(fileUrls.filter(x => x.includes(formatted)));
 
         const first = new Date('2014-12-11');
-        console.log(first.toUTCString());
-        console.log(addDay(first).toUTCString());
-        let day = first;
-        for (let i = 0; i < 1000; i++) {
-            day = addDay(day);
-            if (fileUrls.filter(x => x.includes(day.toISOString().slice(0+5, 10))).length === 0) {
-                console.log(day.toISOString().slice(0, 10));
-            }
+        // console.log(first.toUTCString());
+        // console.log(addDay(first).toUTCString());
+        // let day = first;
+        // for (let i = 0; i < 1000; i++) {
+        //     day = addDay(day);
+        //     if (fileUrls.filter(x => x.includes(day.toISOString().slice(0+5, 10))).length === 0) {
+        //         console.log(day.toISOString().slice(0, 10));
+        //     }
+        // }
+
+        function selectFile() {
+            const fileUrl = yearElement.value;
+            audio.src = fileUrl;
+            audio.play();
+            audio.onplaying = () => {
+                console.log('playing');
+                audio.fastSeek(-secondsUntilTenPm);
+                audio.onplaying = null;
+            };
         }
 
         function timeThings()
