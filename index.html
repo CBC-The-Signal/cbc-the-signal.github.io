@@ -4,13 +4,14 @@
 	<title>Laurie Brown's The Signal</title>
 	<style>
 		html,
-		body {
+		body,
+		select {
 			margin: 0;
 			padding: 0;
 			background: black;
 			color: white;
 			text-align: center;
-			font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;;
+			font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
 			font-size: 1em;
 			font-weight: 200;
 		}
@@ -23,7 +24,7 @@
 			max-width: 600px;
 		}
 		#controls {
-			padding: 50px 0;
+			padding: 20px 0;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -33,7 +34,7 @@
 		}
 		select {
 			appearance: none;
-			padding: 3px 20px;
+			padding: 10px 20px;
 			margin: 0 5px;
 			width: 78px;
 			font-size: 1em;
@@ -58,17 +59,52 @@
 			margin: 0;
 			padding-bottom: 50px;
 		}
+		#choose {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		#choose > a {
+			display: block;
+			padding: 20px;
+			border: 1px solid white;
+			border-radius: 10px;
+			margin: 0 10px;
+			cursor: pointer;
+			text-decoration: none;
+			color: white;
+		}
+		#choose > a:hover {
+			background: white;
+			color: black;
+		}
+		audio {
+			margin: 12px 0;
+			width: 100%;
+			max-width: 600px;
+			zoom: 1.5;
+		}
 	</style>
 </head>
 <body>
-	<p id="message">Streaming Laurie Brown's The Signal at 10pm, on this day, from years past</p>
+	<!-- <p id="message">Streaming Laurie Brown's The Signal at 10pm, on this day, from years past</p> -->
 	<img src="logo.jpg" id="logo"></div>
 	<div id="controls">
 		<span id="today"></span>
 		<select id="year"></select>
 		<span id="button">⏵︎</span>
 	</div>
-	<p id="verbiage"><span id="countdown">Countdown</span> until "live" or you can <a href="#controls">take control</a></p>
+	<div><p>Choose to listen</p></div>
+	<div id="choose">
+		<a href="#together">
+			Together at 10pm
+			<!-- <div id="countdown">Countdown</div> -->
+		</a>
+		<a href="#now">
+			Now
+		</a>
+	</div>
+	<!-- <p id="verbiage"><span id="countdown">Countdown</span> until "live" or you can <a href="#controls">take control</a></p> -->
 	<audio hidden preload="metadata"></audio>
 
 	<script>
@@ -142,14 +178,14 @@
 
 		function getSecondsUntilTenPm() {
 			const now = new Date();
-			const tenPmInSeconds = 22 * 60 * 60;
+			const tenPmInSeconds = 21 * 60 * 60;
 			const nowInSeconds = (now.getHours() * 60 * 60) + (now.getMinutes() * 60) + now.getSeconds();
 			return tenPmInSeconds - nowInSeconds;
 		}
 
 		function timeThings()
 		{
-			const today = new Date().toLocaleString(undefined, { weekday: "short", month: "short", day: "numeric" });
+			const today = new Date().toLocaleString(undefined, { /*weekday: "short", */month: "long", day: "numeric" });
 			todayElement.innerText = today;
 
 			if (getSecondsUntilTenPm() < 0)
@@ -216,55 +252,83 @@
 			return files;
 
 			function getFileUrls() {
-				const urlPrefix = 'http://ints.io/signal/';
+				const urlPrefix = 'http://ints.io/signal/signalradio/';
+				const urlPrefix2 = 'http://ints.io/signal/signal podcasts/';
 				return [
-					`${urlPrefix}27 - Pete Samples, Owen Pallett, memoryhouse - thesignal_2011-01-13.mp3`,
-					`${urlPrefix}28 - Banjo Consorsium, Julie Fader, Overcast Sound - thesignal_2011-01-20.mp3`,
-					`${urlPrefix}29 - Mocky, Olenka & the Autumn Lovers, The Cansecos - thesignal_2011-01-27.mp3`,
-					`${urlPrefix}30 - The Maple Mountain Sunburst Triolian Orchestra, Adam Palmer, Jerry Granelli  - thesignal_2011-02-03.mp3`,
-					`${urlPrefix}31 - Brasstronaut, Snowblink, The Abscent Sounnd - thesignal_2011-02-10.mp3`,
-					`${urlPrefix}32 - Christine Fellows, Braids, Inhabitants - thesignal_2011-02-17.mp3`,
-					`${urlPrefix}33 - Alicia Hansen, Geoff Berner, Fond of Tigers - thesignal_2011-02-24.mp3`,
-					`${urlPrefix}34 - Signal Fest Special - thesignal_2011-03-03.mp3`,
-					`${urlPrefix}35 - Braids, Elizabeth Shepherd, Young Galaxy - thesignal_2011-03-10.mp3`,
-					`${urlPrefix}36 - Nadia Gaudet, Christine Fellows, Tricot Machine - thesignal_2011-03-17.mp3`,
-					`${urlPrefix}37 - Bell Orchestre, Junior Boys, the AwesomeHots, Likewise Vultures - thesignal_2011-03-24.mp3`,
-					`${urlPrefix}38 - Timber Timbre, Secret Mommy, Jerry Granelli - thesignal_2011-03-31.mp3`,
-					`${urlPrefix}39 - Junior Boys, Austra, Chad VanGaalen - thesignal_2011-04-07.mp3`,
-					`${urlPrefix}40 - Giselle Numba One, Phono d'enfant, (sound) from (noise) - thesignal_2011-04-14.mp3`,
-					`${urlPrefix}41 - Braids, Hands & Teeth, Jennifer Castle - thesignal_2011-04-21.mp3`,
-					`${urlPrefix}42 - Daniel Lanois, Jesse Zubot, Lyndsie Alguire - thesignal_2011-04-28.mp3`,
-					`${urlPrefix}43 - Miracle Fortress, Matthew Maaskant, Klatu - thesignal_2011-05-05.mp3`,
-					`${urlPrefix}44 - The Signal - thesignal_2011-05-19.mp3`,
-					`${urlPrefix}45 - Matthew Maaskant, Patrick Watson, Yanina Bilyk - thesignal_2011-05-26.mp3`,
-					`${urlPrefix}46 - Braids, The Olympic Symphonium, Drumheller  - thesignal_2011-06-02.mp3`,
-					`${urlPrefix}47 - ensemble, Snowblink, Digits - thesignal_2011-06-09.mp3`,
-					`${urlPrefix}48 - Austra, Luxury Pond, The Luyas - thesignal_2011-06-16.mp3`,
-					`${urlPrefix}49 - Pete Samples, Imaginary Cities, Turtleboy - thesignal_2011-06-23.mp3`,
-					`${urlPrefix}50 - Courtney Wing, Alicia Hansen, Leif Vollebekk - thesignal_2011-06-30.mp3`,
-					`${urlPrefix}52 - Braids, Esmerine, Moue - 2011-07-14.mp3`,
-					`${urlPrefix}53 - Brasstronaut, Charles Spearin, Paisley Jura - 2011-07-21.mp3`,
-					`${urlPrefix}54 - Austra, Vitaminsforyou, Siktransit  - 2011-07-28.mp3`,
-					`${urlPrefix}55 - Ensemble, Austra, Snowblink - thesignal_2011-08-04.mp3`,
-					`${urlPrefix}56 - Rebekah Higgs, Adam Palmer, and Chilly Gonzalez - 2011-08-11.mp3`,
-					`${urlPrefix}57 - Ohbijou, Joshua Van Tassel, Hands & Teeth - 2011-08-18.mp3`,
-					`${urlPrefix}58 - David Martel, Carnival Moon, Montag - 2011-08-25.mp3`,
-					`${urlPrefix}59 - Muskox, Forest City Lovers, Tasseomancy - 2011-09-01.mp3`,
-					`${urlPrefix}60 - See Through Trio, Sandro Perri, Hannah Epperson - 2011-09-08.mp3`,
-					`${urlPrefix}61 - Polaris Prize Edition - 2011-09-14.mp3`,
-					`${urlPrefix}62 - Aidan Knight, the O'Darling, Kid Koala - 2011-09-21.mp3`,
-					`${urlPrefix}63 - Brasstronaut, Jay Crocker, Jason Zumpano - thesignal_2011-09-29.mp3`,
-					`${urlPrefix}64 - Mocky, Colin MacDonald, Taylor Rankin - 2011-10-05.mp3`,
-					`${urlPrefix}65 - Courier News, Eccodek, Jordan Klassen - 2011-10-12.mp3`,
-					`${urlPrefix}66 - You Are My Symphonic, Geordie Haley, Morlove - 2011-10-19.mp3`,
-					`${urlPrefix}67 - Sandro Perri, Dixie's Death Pool, Little City - 2011-10-26.mp3`,
-					`${urlPrefix}68 - Barr Brothers, Kirk Starkey, Woodshed Orchestra - 2011-11-02.mp3`,
-					`${urlPrefix}69 - Siskiyou, Rich Aucoin, David Martel - 2011-11-09.mp3`,
-					`${urlPrefix}70 - Galen Hartley, The Belle Game, Gianna Lauren - 2011-11-16.mp3`,
-					`${urlPrefix}71 - LIVE Ohbijou, Krista LL Muir, Canaille - 2011-11-23.mp3`,
-					`${urlPrefix}72 - LIVE Tagaq, Christine Fellows, Del Bel - 2011-11-30.mp3`,
-					`${urlPrefix}73 - Cold Specks, Adaline, Doug Tielli - 2011-12-07.mp3`,
-					`${urlPrefix}74 - Mary Cobham, Ronley Teper, Below the Sea - 2011-12-14.mp3`,
+					`${urlPrefix2}27 - Pete Samples, Owen Pallett, memoryhouse - thesignal_2011-01-13.mp3`,
+					`${urlPrefix2}28 - Banjo Consorsium, Julie Fader, Overcast Sound - thesignal_2011-01-20.mp3`,
+					`${urlPrefix2}29 - Mocky, Olenka & the Autumn Lovers, The Cansecos - thesignal_2011-01-27.mp3`,
+					`${urlPrefix2}30 - The Maple Mountain Sunburst Triolian Orchestra, Adam Palmer, Jerry Granelli  - thesignal_2011-02-03.mp3`,
+					`${urlPrefix2}31 - Brasstronaut, Snowblink, The Abscent Sounnd - thesignal_2011-02-10.mp3`,
+					`${urlPrefix2}32 - Christine Fellows, Braids, Inhabitants - thesignal_2011-02-17.mp3`,
+					`${urlPrefix2}33 - Alicia Hansen, Geoff Berner, Fond of Tigers - thesignal_2011-02-24.mp3`,
+					`${urlPrefix2}34 - Signal Fest Special - thesignal_2011-03-03.mp3`,
+					`${urlPrefix2}35 - Braids, Elizabeth Shepherd, Young Galaxy - thesignal_2011-03-10.mp3`,
+					`${urlPrefix2}36 - Nadia Gaudet, Christine Fellows, Tricot Machine - thesignal_2011-03-17.mp3`,
+					`${urlPrefix2}37 - Bell Orchestre, Junior Boys, the AwesomeHots, Likewise Vultures - thesignal_2011-03-24.mp3`,
+					`${urlPrefix2}38 - Timber Timbre, Secret Mommy, Jerry Granelli - thesignal_2011-03-31.mp3`,
+					`${urlPrefix2}39 - Junior Boys, Austra, Chad VanGaalen - thesignal_2011-04-07.mp3`,
+					`${urlPrefix2}40 - Giselle Numba One, Phono d'enfant, (sound) from (noise) - thesignal_2011-04-14.mp3`,
+					`${urlPrefix2}41 - Braids, Hands & Teeth, Jennifer Castle - thesignal_2011-04-21.mp3`,
+					`${urlPrefix2}42 - Daniel Lanois, Jesse Zubot, Lyndsie Alguire - thesignal_2011-04-28.mp3`,
+					`${urlPrefix2}43 - Miracle Fortress, Matthew Maaskant, Klatu - thesignal_2011-05-05.mp3`,
+					`${urlPrefix2}44 - The Signal - thesignal_2011-05-19.mp3`,
+					`${urlPrefix2}45 - Matthew Maaskant, Patrick Watson, Yanina Bilyk - thesignal_2011-05-26.mp3`,
+					`${urlPrefix2}46 - Braids, The Olympic Symphonium, Drumheller  - thesignal_2011-06-02.mp3`,
+					`${urlPrefix2}47 - ensemble, Snowblink, Digits - thesignal_2011-06-09.mp3`,
+					`${urlPrefix2}48 - Austra, Luxury Pond, The Luyas - thesignal_2011-06-16.mp3`,
+					`${urlPrefix2}49 - Pete Samples, Imaginary Cities, Turtleboy - thesignal_2011-06-23.mp3`,
+					`${urlPrefix2}50 - Courtney Wing, Alicia Hansen, Leif Vollebekk - thesignal_2011-06-30.mp3`,
+					`${urlPrefix2}52 - Braids, Esmerine, Moue - 2011-07-14.mp3`,
+					`${urlPrefix2}53 - Brasstronaut, Charles Spearin, Paisley Jura - 2011-07-21.mp3`,
+					`${urlPrefix2}54 - Austra, Vitaminsforyou, Siktransit  - 2011-07-28.mp3`,
+					`${urlPrefix2}55 - Ensemble, Austra, Snowblink - thesignal_2011-08-04.mp3`,
+					`${urlPrefix2}56 - Rebekah Higgs, Adam Palmer, and Chilly Gonzalez - 2011-08-11.mp3`,
+					`${urlPrefix2}57 - Ohbijou, Joshua Van Tassel, Hands & Teeth - 2011-08-18.mp3`,
+					`${urlPrefix2}58 - David Martel, Carnival Moon, Montag - 2011-08-25.mp3`,
+					`${urlPrefix2}59 - Muskox, Forest City Lovers, Tasseomancy - 2011-09-01.mp3`,
+					`${urlPrefix2}60 - See Through Trio, Sandro Perri, Hannah Epperson - 2011-09-08.mp3`,
+					`${urlPrefix2}61 - Polaris Prize Edition - 2011-09-14.mp3`,
+					`${urlPrefix2}62 - Aidan Knight, the O'Darling, Kid Koala - 2011-09-21.mp3`,
+					`${urlPrefix2}63 - Brasstronaut, Jay Crocker, Jason Zumpano - thesignal_2011-09-29.mp3`,
+					`${urlPrefix2}64 - Mocky, Colin MacDonald, Taylor Rankin - 2011-10-05.mp3`,
+					`${urlPrefix2}65 - Courier News, Eccodek, Jordan Klassen - 2011-10-12.mp3`,
+					`${urlPrefix2}66 - You Are My Symphonic, Geordie Haley, Morlove - 2011-10-19.mp3`,
+					`${urlPrefix2}67 - Sandro Perri, Dixie's Death Pool, Little City - 2011-10-26.mp3`,
+					`${urlPrefix2}68 - Barr Brothers, Kirk Starkey, Woodshed Orchestra - 2011-11-02.mp3`,
+					`${urlPrefix2}69 - Siskiyou, Rich Aucoin, David Martel - 2011-11-09.mp3`,
+					`${urlPrefix2}70 - Galen Hartley, The Belle Game, Gianna Lauren - 2011-11-16.mp3`,
+					`${urlPrefix2}71 - LIVE Ohbijou, Krista LL Muir, Canaille - 2011-11-23.mp3`,
+					`${urlPrefix2}72 - LIVE Tagaq, Christine Fellows, Del Bel - 2011-11-30.mp3`,
+					`${urlPrefix2}73 - Cold Specks, Adaline, Doug Tielli - 2011-12-07.mp3`,
+					`${urlPrefix2}74 - Mary Cobham, Ronley Teper, Below the Sea - 2011-12-14.mp3`,
+					`${urlPrefix2}thesignal_2010-05-13.mp3`,
+					`${urlPrefix2}thesignal_2010-05-20.mp3`,
+					`${urlPrefix2}thesignal_2010-05-27.mp3`,
+					`${urlPrefix2}thesignal_2010-06-03.mp3`,
+					`${urlPrefix2}thesignal_2010-06-10.mp3`,
+					`${urlPrefix2}thesignal_2010-06-17.mp3`,
+					`${urlPrefix2}thesignal_2010-06-24.mp3`,
+					`${urlPrefix2}thesignal_2010-07-01.mp3`,
+					`${urlPrefix2}thesignal_2010-07-08.mp3`,
+					`${urlPrefix2}thesignal_2010-07-15.mp3`,
+					`${urlPrefix2}thesignal_2010-09-09.mp3`,
+					`${urlPrefix2}thesignal_2010-09-16.mp3`,
+					`${urlPrefix2}thesignal_2010-09-23.mp3`,
+					`${urlPrefix2}thesignal_2010-09-30.mp3`,
+					`${urlPrefix2}thesignal_2010-10-07.mp3`,
+					`${urlPrefix2}thesignal_2010-10-15.mp3`,
+					`${urlPrefix2}thesignal_2010-10-21.mp3`,
+					`${urlPrefix2}thesignal_2010-10-28.mp3`,
+					`${urlPrefix2}thesignal_2010-11-04.mp3`,
+					`${urlPrefix2}thesignal_2010-11-10.mp3`,
+					`${urlPrefix2}thesignal_2010-11-18.mp3`,
+					`${urlPrefix2}thesignal_2010-11-25.mp3`,
+					`${urlPrefix2}thesignal_2010-12-02.mp3`,
+					`${urlPrefix2}thesignal_2010-12-09.mp3`,
+					`${urlPrefix2}thesignal_2010-12-16.mp3`,
+					`${urlPrefix2}thesignal_2011-01-06.mp3`,
+					`${urlPrefix2}thesignal_2011-07-07.mp3`,
 					`${urlPrefix}2014-12-11-the-signal.mp3`,
 					`${urlPrefix}2014-12-12-the-signal.mp3`,
 					`${urlPrefix}2014-12-13-the-signal.mp3`,
@@ -1098,39 +1162,12 @@
 					`${urlPrefix}2017-08-31-the-signal.mp3`,
 					`${urlPrefix}2017-09-01-the-signal.mp3`,
 					`${urlPrefix}2017-09-02-the-signal.mp3`,
-					`${urlPrefix}thesignal_2010-05-13.mp3`,
-					`${urlPrefix}thesignal_2010-05-20.mp3`,
-					`${urlPrefix}thesignal_2010-05-27.mp3`,
-					`${urlPrefix}thesignal_2010-06-03.mp3`,
-					`${urlPrefix}thesignal_2010-06-10.mp3`,
-					`${urlPrefix}thesignal_2010-06-17.mp3`,
-					`${urlPrefix}thesignal_2010-06-24.mp3`,
-					`${urlPrefix}thesignal_2010-07-01.mp3`,
-					`${urlPrefix}thesignal_2010-07-08.mp3`,
-					`${urlPrefix}thesignal_2010-07-15.mp3`,
-					`${urlPrefix}thesignal_2010-09-09.mp3`,
-					`${urlPrefix}thesignal_2010-09-16.mp3`,
-					`${urlPrefix}thesignal_2010-09-23.mp3`,
-					`${urlPrefix}thesignal_2010-09-30.mp3`,
-					`${urlPrefix}thesignal_2010-10-07.mp3`,
-					`${urlPrefix}thesignal_2010-10-15.mp3`,
-					`${urlPrefix}thesignal_2010-10-21.mp3`,
-					`${urlPrefix}thesignal_2010-10-28.mp3`,
-					`${urlPrefix}thesignal_2010-11-04.mp3`,
-					`${urlPrefix}thesignal_2010-11-10.mp3`,
-					`${urlPrefix}thesignal_2010-11-18.mp3`,
-					`${urlPrefix}thesignal_2010-11-25.mp3`,
-					`${urlPrefix}thesignal_2010-12-02.mp3`,
-					`${urlPrefix}thesignal_2010-12-09.mp3`,
-					`${urlPrefix}thesignal_2010-12-16.mp3`,
-					`${urlPrefix}thesignal_2011-01-06.mp3`,
-					`${urlPrefix}thesignal_2011-07-07.mp3`,
 				];
 			}
 		}
 
 		function checkHash() {
-			const hasControls = window.location.hash === '#controls';
+			const hasControls = window.location.hash === '#now';
 			audio.controls = hasControls;
 			audio.hidden = !hasControls;
 		}
